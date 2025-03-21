@@ -25,24 +25,32 @@
 # -- XOR        두 값이 같으면 거짓, 두 값이 다르면 참
 
 -- 1. 비교 연산자
-SELECT tbl_menu.menu_name
-     , tbl_menu.menu_price
-     , tbl_menu.orderable_status
-from tbl_menu
-WHERE orderable_status = 'N';
+SELECT
+    tbl_menu.menu_name
+  , tbl_menu.menu_price
+  , tbl_menu.orderable_status
+FROM
+    tbl_menu
+WHERE
+    orderable_status = 'N';
 
 -- tbl_menu 테이블에서 가격이 13,000원인 메뉴이름, 메뉴가격, 주문여부컬럼을 출력
-SELECT menu_name
-     , menu_price
-     , orderable_status
-from tbl_menu
-WHERE menu_price = 13000;
+SELECT
+    menu_name
+  , menu_price
+  , orderable_status
+FROM
+    tbl_menu
+WHERE
+    menu_price = 13000;
 
 -- 같지 않을 연산자와 함께 WHERE절 사용
-SELECT menu_name
-     , menu_price
-     , orderable_status
-from tbl_menu
+SELECT
+    menu_name
+  , menu_price
+  , orderable_status
+FROM
+    tbl_menu
 WHERE
 #     orderable_status != 'Y';
 #     orderable_status <> 'Y';
@@ -51,17 +59,23 @@ WHERE
 orderable_status = 'N';
 
 -- 대소비교 연산자와 함께 WHERE절 사용
-SELECT menu_name
-     , menu_price
-     , orderable_status
-FROM tbl_menu
-WHERE menu_price > 20000;
+SELECT
+    menu_name
+  , menu_price
+  , orderable_status
+FROM
+    tbl_menu
+WHERE
+    menu_price > 20000;
 
-SELECT menu_name
-     , menu_price
-     , orderable_status
-FROM tbl_menu
-WHERE menu_price <= 20000;
+SELECT
+    menu_name
+  , menu_price
+  , orderable_status
+FROM
+    tbl_menu
+WHERE
+    menu_price <= 20000;
 
 -- 2. AND 연산자와 함께 WHERE절 사용
 -- 0은 FALSE, 0외 숫자는 TRUE로 암시적 형변환 후 평가된다.
@@ -74,23 +88,29 @@ SELECT 1 AND NULL, NULL AND NULL;
 SELECT 1 + NULL, 1 - NULL, 1 * NULL, 1 / NULL;
 
 -- 메누테이블에서 주문여부가 Y이면서 카테고리 코드가 10인 메뉴목록을 조회
-SELECT menu_code
-     , menu_price
-     , category_code
-     , orderable_status
-FROM tbl_menu
-WHERE orderable_status = 'Y'
+SELECT
+    menu_code
+  , menu_price
+  , category_code
+  , orderable_status
+FROM
+    tbl_menu
+WHERE
+      orderable_status = 'Y'
   AND category_code = 10;
 
 -- 메뉴테이블에서 메뉴가격이 5000원보다 크고, 카테고리 코드가 10인 컬럼을 출력
 -- 단, 컬럼의 출력은 메뉴코드, 메뉴이름, 메뉴가격, 카테고리코드, 주문여부만 출력
-SELECT menu_code        AS 메뉴코드
-     , menu_name        AS 메뉴이름
-     , menu_price       AS 메뉴가격
-     , category_code    AS 카테고리코드
-     , orderable_status AS 주문여부
-FROM tbl_menu
-WHERE menu_price > 5000
+SELECT
+    menu_code        AS 메뉴코드
+  , menu_name        AS 메뉴이름
+  , menu_price       AS 메뉴가격
+  , category_code    AS 카테고리코드
+  , orderable_status AS 주문여부
+FROM
+    tbl_menu
+WHERE
+      menu_price > 5000
   AND category_code = 10;
 
 -- 3. OR 연산자와 함께 WHERE절 사용
@@ -99,14 +119,17 @@ SELECT 0 OR 0;
 SELECT 1 OR NULL, 0 OR NULL, NULL OR NULL;
 
 -- 메뉴테이블에서 주문여부가 Y이거나, 카테고리 코드가 10인 메뉴목록을 조회
-SELECT menu_code        AS 메뉴코드
-     , menu_name        AS 메뉴이름
-     , menu_price       AS 메뉴가격
-     , category_code    AS 카테고리코드
-     , orderable_status AS 주문여부
-FROM tbl_menu
-WHERE orderable_status = 'Y'
-   OR category_code = 10;
+SELECT
+    menu_code        AS 메뉴코드
+  , menu_name        AS 메뉴이름
+  , menu_price       AS 메뉴가격
+  , category_code    AS 카테고리코드
+  , orderable_status AS 주문여부
+FROM
+    tbl_menu
+WHERE
+     orderable_status = 'Y'
+  OR category_code = 10;
 
 -- 우선순위
 -- 나열한 AND, OR 중에는 AND가 우선순위가 높다.
@@ -115,7 +138,188 @@ SELECT 1 OR 0 AND 0;
 -- 카테고리번호가 4 또는 가격이 9000원이면서, 메뉴번호가 10보다 큰 메뉴를 조회하자
 -- 모든 컬럼을 조회
 SELECT *
-FROM tbl_menu
-WHERE category_code = 4
-   OR menu_price = 9000
-    AND menu_code > 10;
+FROM
+    tbl_menu
+WHERE
+     category_code = 4
+  OR menu_price = 9000
+         AND menu_code > 10;
+
+-- 5. BETWWEN 연산자
+-- 숫자, 문자열, 날짜.시간 값의 범위안에 있다면 TRUE를 반환하는 연산자
+-- (BETWWEN 연사자를 사용한 것과 동일한 결과 - 하지만 쓸데없이 길다.)
+SELECT
+    menu_name
+  , menu_price
+  , category_code
+FROM
+    tbl_menu
+WHERE
+      menu_price >= 10000
+  AND menu_price <= 25000;
+
+-- BETWWEN 연산자 사용할 시 쿼리문이 간결해진다.
+-- AND 연산자보다 BEWTTEN 연산자의 우선순위가 높다.
+SELECT
+    menu_name
+  , menu_price
+  , category_code
+FROM
+    tbl_menu
+WHERE
+    menu_price BETWEEN 10000 AND 25000;
+
+-- 사전등재순으로 문자열 범위 비교
+SELECT
+    menu_name
+  , menu_price
+  , category_code
+FROM
+    tbl_menu
+WHERE
+    menu_name BETWEEN '가' AND '마'
+ORDER BY
+    menu_price;
+
+-- 10,000 ~ 25,000에 포함되지 않은 값을 출력
+SELECT
+    menu_name
+  , menu_price
+  , category_code
+FROM
+    tbl_menu
+WHERE
+    menu_price NOT BETWEEN 10000 AND 25000;
+
+-- 6. LIKE 연산자
+-- 비교하려는 값이 지정한 특정 패턴을 만족시키면 TRUE를 리턴하는 연산자로 '%', ''를 와일드카드로 사용할 수있다.
+
+-- 와일드카드란? 다른 문자로 대체가능한 특수한 의미를 가진 문자
+-- 1. '%' 글자가 없든지, 글자가 1개 이상 여러개를 의미한다.
+-- 2. _개수에 따라 문자 1개를 의미한다 _가 3개라면 문자 3개를 의미한다. ex) __a => 앞에 2문자가 포함된 a로 끝나는 단어를 찾아줌
+
+-- %의 위치에 따라서 검색
+-- %문자     : 문자로 끝나는 내용만
+-- 문자%     : 문자로 시작하는 내용만
+-- %문자%    : 문자가 포함되어 있는 내용만
+
+SELECT
+    menu_name
+  , menu_price
+FROM
+    tbl_menu
+WHERE
+    menu_name LIKE '마%';
+
+SELECT
+    menu_name
+  , menu_price
+FROM
+    tbl_menu
+WHERE
+    menu_name LIKE '%밥';
+
+-- 쥬스 앞글자가 6글자인 메뉴조회
+SELECT
+    menu_name
+  , menu_price
+FROM
+    tbl_menu
+WHERE
+    menu_name LIKE '______쥬스';
+
+SELECT
+    menu_name
+  , menu_price
+FROM
+    tbl_menu
+WHERE
+    menu_name NOT LIKE '%갈치%';
+
+-- IN 연산자
+-- 카테고리 코드가 4,5,6인 메뉴를 조회하세요
+SELECT
+    category_code
+  , menu_name
+FROM
+    tbl_menu
+WHERE
+     category_code = 4
+  OR category_code = 5
+  OR category_code = 6;
+
+-- OR 연산자가 아닌 IN 연산자를 사용하는 방법
+SELECT
+    category_code
+  , menu_name
+FROM
+    tbl_menu
+WHERE
+    category_code IN (4, 5, 6);
+
+-- 부정표현
+SELECT
+    category_code
+  , menu_name
+FROM
+    tbl_menu
+WHERE
+    category_code NOT IN (4, 5, 6);
+
+-- IS NULL (NULL 값만 출력)
+SELECT
+    category_code
+  , category_name
+  , ref_category_code
+FROM
+    tbl_category
+WHERE
+    ref_category_code IS NULL;
+
+-- NULL처리함수를 통해 찾을 수 있다.
+SELECT
+    category_code
+  , category_name
+  , IFNULL(ref_category_code, 0) = 0
+  , ref_category_code
+
+FROM
+    tbl_category
+WHERE
+    -- IFNULL의 인자로는 NULL을 찾고 싶은 컬럼명과 NULL일때 치환할 값을 받는다.
+    -- MySQL에서만 사용 가능
+#     IFNULL(ref_category_code, 0) = 0;
+    -- 모든 DBMS에서 사용가능
+    COALESCE(ref_category_code, 0) = 0;
+
+-- 부정표현
+SELECT
+    category_code
+  , category_name
+  , ref_category_code
+FROM
+    tbl_category
+WHERE
+    ref_category_code IS NOT NULL;
+
+-- 실습문제
+CREATE TABLE tb_escape_watch
+(
+    watchname   varchar(40),
+    description varchar(200)
+);
+INSERT INTO
+    tb_escape_watch
+VALUES ('금시계', '순금 99.99% 함유 고급시계');
+INSERT INTO
+    tb_escape_watch
+VALUES ('은시계', '고객 만족도 99.99점를 획득한 고급시계');
+
+-- escape 문자 : \%
+-- tb_escape_watch 테이블에서 description컬럼에 99.99%라는 글자가 들어가 있는 행만 추출하세요.
+SELECT
+    description
+FROM
+    tb_escape_watch
+WHERE
+    description LIKE '%99.99\%%';
