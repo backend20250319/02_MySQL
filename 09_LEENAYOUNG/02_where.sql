@@ -144,9 +144,200 @@ SELECT (1 OR 0) AND 0;
 SELECT *
     FROM tbl_menu
     WHERE
-            category_code = 4
+            (category_code = 4
         OR
-            menu_price = 9000
+            menu_price = 9000)
         AND
             menu_code > 10;
---123123
+
+-- 5. BETWEEN 연산자
+-- 숫자, 문자열, 날짜/시간 값의 범위안에 있다면 TRUE로 반환하는 연산자
+SELECT
+        menu_name
+      , menu_price
+      , category_code
+    FROM
+        tbl_menu
+    WHERE
+        menu_price >= 10000
+    AND
+        menu_price <= 25000;
+
+SELECT
+       menu_name
+     , menu_price
+     , category_code
+    FROM
+        tbl_menu
+    WHERE
+        menu_price BETWEEN 10000 AND 25000;
+
+-- 사전등재순으로 문자열 범위 비교
+SELECT
+       menu_name
+     , menu_price
+     , category_code
+    FROM
+        tbl_menu
+    WHERE
+        menu_name BETWEEN '가' AND '마'
+    ORDER BY
+        menu_price;
+
+SELECT
+           menu_name
+         , menu_price
+         , category_code
+    FROM
+        tbl_menu
+    WHERE
+        menu_price NOT BETWEEN 10000 AND 25000;
+
+-- 6. LIKE  연산자
+-- 비교하려는 값이 지정한 특정 패턴을 만족시키면 TRUE를 리턴하는 연산자로 '%', '_'를 와일드카드로 사용할 수있다.
+
+-- 와일드카드란? 다른 문자로 대체가능한 특수한 의미를 가진 문자
+-- 1. '%' 글자가 없든지, 글자가 1개 이상 여러개를 의미한다.
+-- 2. 개수에 따라 문자 1개를 의미한다 _가 3개라면 문자 3개를 의미한다.
+
+-- %의 위치에 따라서 검색
+-- %문자     : 문자로 끝나는 내용만
+-- 문자%     : 문자로 시작하는 내용만
+-- %문자%    : 문자가 포함되어 있는 내용만
+
+SELECT
+        menu_name
+      , menu_price
+    FROM
+        tbl_menu
+    WHERE
+        menu_name LIKE '%마늘%';
+
+SELECT
+        menu_name
+      , menu_price
+    FROM
+        tbl_menu
+    WHERE
+        menu_name LIKE '마%';
+
+SELECT
+        menu_name
+      , menu_price
+    FROM
+        tbl_menu
+    WHERE
+        menu_name LIKE '%밥';
+
+-- 쥬스 앞글자가 6글자인 메뉴조회
+SELECT
+        menu_name
+      , menu_price
+    FROM
+        tbl_menu
+    WHERE
+        menu_name LIKE '______쥬스';
+
+SELECT
+        menu_name
+      , menu_price
+    FROM
+        tbl_menu
+    WHERE
+        menu_name NOT LIKE '%갈치%';
+
+-- IN 연산자
+-- 카테고리 코드가 4,5,6인 메뉴를 조회하세요.
+SELECT
+        menu_name
+      , category_code
+    FROM
+        tbl_menu
+    WHERE
+        category_code = 4
+    OR
+        category_code = 5
+    OR
+        category_code = 6;
+
+SELECT
+        menu_name
+      , category_code
+    FROM
+        tbl_menu
+    WHERE
+        category_code IN (4,5,6);
+
+-- 부정표현
+SELECT
+        menu_name
+      , category_code
+    FROM
+        tbl_menu
+    WHERE
+        category_code NOT IN (4,5,6);
+
+-- IS NULL
+SELECT
+        category_code
+      , category_name
+      , ref_category_code
+    FROM
+        tbl_category
+    WHERE
+        ref_category_code IS NULL;
+
+-- NULL 처리 함수를 통해 찾을 수 있다.
+SELECT
+        category_code
+      , category_name
+      , ref_category_code
+    FROM
+        tbl_category
+    WHERE
+        IFNULL(ref_category_code, 0) = 0;
+
+SELECT
+        category_code
+      , category_name
+      , ref_category_code
+      , IFNULL(ref_category_code, 0) -- NULL이면 0으로 출력해줌
+    FROM
+        tbl_category
+    WHERE
+#        IFNULL(ref_category_code, 0) = 0;
+        COALESCE(ref_category_code, 0) = 0; -- 모든 DBMS에서 사용 가능 (IFNULL과 기능 같음!)
+
+-- 부정표현
+SELECT
+        category_code
+      , category_name
+      , ref_category_code
+    FROM
+        tbl_category
+    WHERE
+        ref_category_code IS NOT NULL;
+
+
+-- 실습문제
+#SHIFT + TAB --> 안으로 들여쓰기
+
+create table tb_escape_watch(
+    watchname varchar(40),
+    description varchar(200)
+);
+insert into tb_escape_watch values('금시계', '순금 99.99% 함유 고급시계');
+insert into tb_escape_watch values('은시계', '고객 만족도 99.99점를 획득한 고급시계');
+
+SELECT * FROM tb_escape_watch;
+
+-- tb_escape_watch 테이블에서 description 컬럼에 99.99%라는 글자가 들어가있는 행만 추출하세요.
+-- ESCAPE 문자: \% -> 99.99\%
+
+SELECT
+        watchname
+      , description
+    FROM
+        tb_escape_watch
+    WHERE
+        description LIKE '%99.99\%%';
