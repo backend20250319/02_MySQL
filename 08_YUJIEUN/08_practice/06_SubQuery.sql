@@ -96,7 +96,15 @@ SELECT EMP_ID 사원번호
 
     */
 
-    SELECT 
+    SELECT LOCAL_NAME 지역명
+            , NATIONAL_NAME 국가명
+            FROM LOCATION
+            JOIN NATION
+
+
+    SELECT DEPT_ID
+        , DEPT_TITLE
+            FROM DEPARTMENT
 
 
 
