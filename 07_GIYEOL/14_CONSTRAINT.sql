@@ -70,7 +70,7 @@ VALUES
 
 DROP TABLE IF EXISTS user_primarykey;
 CREATE TABLE IF NOT EXISTS user_primarykey (
---     user_no INT PRIMARY KEY,
+    user_no INT PRIMARY KEY,
     user_no INT,
     user_id VARCHAR(255) NOT NULL,
     user_pwd VARCHAR(255) NOT NULL,
@@ -92,3 +92,238 @@ INSERT INTO user_unique
 (user_no, user_id, user_pwd, user_name, gender, phone, email)
 VALUES
     (3, 'user01', 'pass01', '홍길동', '남', '010-1233-5378', 'hong123@gmail.com');
+--
+
+
+
+-- ================================
+-- FOREIGN KEY
+-- ================================
+-- 참조(REFERENCES)된 다른 테이블에서 제공하는 값만 사용할 수 있다.
+-- 참조무결성을 위배하지 않기 위해 사용한다.
+-- FOREIGN KEY제약조건에 의해서 테이블간의 관계(RELATIONSHIP)가 형성된다.
+-- 제공되는 값 외에는 NULL을 사용할 수 있다.
+DROP TABLE IF EXISTS  user_grade;
+CREATE TABLE IF NOT EXISTS user_grade(
+ grade_code INT PRIMARY KEY ,
+ grade_name VARCHAR(255) NOT NULL
+) ENGINE = INNODB;
+
+INSERT INTO user_grade
+VALUES (10, '일반회원'),
+       (20, '우수회원'),
+       (30, '특별회원');
+
+SELECT * FROM user_grade;
+
+
+
+DROP TABLE IF EXISTS user_foreignkey;
+CREATE TABLE IF NOT EXISTS user_foreignkey(
+    user_no INT PRIMARY KEY ,
+    user_id VARCHAR(255) NOT NULL ,
+    user_pwd VARCHAR(255) NOT NULL,
+    user_name VARCHAR(255) NOT NULL,
+    gender VARCHAR(3),
+    phone VARCHAR(255) NOT NULL,
+    email VARCHAR(255),
+  #  grade_code INT NOT NULL,
+    FOREIGN KEY (grade_code)
+    REFERENCES user_grade(grade_code)
+) ENGINE=INNODB;
+
+INSERT INTO user_foreignkey
+(user_no, user_id, user_pwd, user_name, gender, phone, email, grade_code)
+VALUES
+    (1, 'user01', 'pass01', '홍길동', '남', '010-1234-5678', 'hong123@gmail.com', 10),
+    (2, 'user02', 'pass02', '유관순', '여', '010-7777-7777', 'yu77@gmail.com', 20);
+select  * from user_foreignkey;
+
+--
+INSERT INTO user_foreignkey
+(user_no, user_id, user_pwd, user_name, gender, phone, email, grade_code)
+VALUES
+ (3, 'user03', 'pass03', '이순신', '남', '010-1234-5678', 'lee123@gmail.com', null);
+
+ --
+
+delete from user_grade where grade_code =10;
+
+DROP TABLE IF EXISTS user_foreignkey;
+CREATE TABLE IF NOT EXISTS user_foreignkey(
+    user_no INT PRIMARY KEY ,
+    user_id VARCHAR(255) NOT NULL ,
+    user_pwd VARCHAR(255) NOT NULL,
+    user_name VARCHAR(255) NOT NULL,
+    gender VARCHAR(3),
+    phone VARCHAR(255) NOT NULL,
+    email VARCHAR(255),
+    grade_code INT NOT NULL,
+    grade_code int ,
+    FOREIGN KEY (grade_code)
+    REFERENCES user_grade(grade_code)
+    #    on update set null
+        on delete set null
+) ENGINE=INNODB;
+insert into user_grade values (10,'일반회원');
+insert into user_grade values (20,'우수회원');
+select * from user_grade;
+INSERT INTO user_foreignkey
+(user_no, user_id, user_pwd, user_name, gender, phone, email, grade_code)
+VALUES
+    (1, 'user01', 'pass01', '홍길동', '남', '010-1234-5678', 'hong123@gmail.com', 10),
+    (2, 'user02', 'pass02', '유관순', '여', '010-7777-7777', 'yu77@gmail.com', 20);
+select  * from user_foreignkey;
+ /*INSERT INTO user_foreignkey
+(user_no, user_id, user_pwd, user_name, gender, phone, email, grade_code)
+VALUES
+  (1, 'user01', 'pass01', '홍길동', '남', '010-1234-5678', 'hong123@gmail.com', 10),
+    (2, 'user02', 'pass02', '유관순', '여', '010-7777-7777', 'yu77@gmail.com', 20);
+select  * from user_foreignkey;
+*/
+-- 1.부모 테이블의 grade 코드를 수정
+ update
+     user_grade
+ set
+     grade_code = 300
+ where
+     grade_code = 10;
+
+
+-- 2 부모 테이블 행 삭제
+delete
+from
+     user_grade
+where
+    grade_code =20;
+
+--
+DROP TABLE user_foreignkey;
+CREATE TABLE IF NOT EXISTS user_foreignkey(
+    user_no INT PRIMARY KEY ,
+    user_id VARCHAR(255) NOT NULL ,
+    user_pwd VARCHAR(255) NOT NULL,
+    user_name VARCHAR(255) NOT NULL,
+    gender VARCHAR(3),
+    phone VARCHAR(255) NOT NULL,
+    email VARCHAR(255),
+    grade_code INT,
+    FOREIGN KEY (grade_code)
+    REFERENCES user_grade(grade_code)
+     ON UPDATE CASCADE
+     ON DELETE CASCADE
+) ENGINE=INNODB;
+
+INSERT INTO user_grade VALUES (20, '우수회원');
+
+INSERT INTO user_foreignkey
+(user_no, user_id, user_pwd, user_name, gender, phone, email, grade_code)
+VALUES
+    (1, 'user01', 'pass01', '홍길동', '남', '010-1234-5678', 'hong123@gmail.com', 10),
+    (2, 'user02', 'pass02', '유관순', '여', '010-7777-7777', 'yu77@gmail.com', 20);
+
+SELECT * FROM user_grade;
+SELECT * FROM user_foreignkey;
+
+
+update  user_grade
+set grade_code = 300
+where grade_code = 10;
+
+delete  from user_grade
+where grade_code = 300;
+
+-- ===================================================================================================
+-- check
+-- ===================================================================================================
+
+-- CHECK 제약 조건 위반시 허용하지 않는다.
+DROP TABLE IF EXISTS user_check;
+CREATE TABLE IF NOT EXISTS user_check (
+    user_no INT AUTO_INCREMENT PRIMARY KEY,
+    user_name VARCHAR(255) NOT NULL,
+    gender VARCHAR(5) CHECK(gender IN ('남', '여')),
+    age INT CHECK(age >= 19)
+) ENGINE=INNODB;
+SHOW CREATE TABLE user_check;
+select * from information_schema.TABLE_CONSTRAINTS;
+
+insert into  user_check values (null,'홍길동','남',25);
+insert into  user_check values (null,'유관순','여',20);
+insert into  user_check values (null,'안중근','남성',40); -- 제약조건 위배됨
+insert into  user_check values (null,'유승재','남',18); -- 제약조건 위배됨
+select * from user_check;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
