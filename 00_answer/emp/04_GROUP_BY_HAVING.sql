@@ -1,4 +1,4 @@
-use empdb;
+    use empdb;
 
 -- 1. EMPLOYEE 테이블에서 직급이 J1을 제외하고, 직급별 사원수 및 평균급여를 출력하세요.
 

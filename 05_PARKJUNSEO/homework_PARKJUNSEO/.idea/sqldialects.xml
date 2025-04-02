@@ -5,5 +5,8 @@
     <file url="file://$PROJECT_DIR$/02_Single_Row_Function.sql" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/03_Group_Function.sql" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/04_GROUP_BY_HAVING.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/05_Join.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/05_Join2.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/06_SubQuery.sql" dialect="MySQL" />
   </component>
 </project>
