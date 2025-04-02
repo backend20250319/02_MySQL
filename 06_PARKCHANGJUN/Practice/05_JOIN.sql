@@ -139,6 +139,8 @@ SELECT
 
 -- 5. 2020년 12월 25일이 무슨 요일인지 조회하시오.(Join아님)
 SELECT
+
+
         # %w 날짜의 요일을 반환. CAST 함수 - 20201225를 DATE 형식으로 변환.
         # DATE_FORMAT - 변환된 날짜에서 요일을 문자열로 변환.
         DATE_FORMAT(CAST(20201225 AS DATE), '%W') 요일;
@@ -202,6 +204,18 @@ SELECT
         *
   FROM
         EMPLOYEE;
+
+SELECT
+        E.EMP_NAME  사원명,
+        J.JOB_NAME 직급명,
+        E.DEPT_CODE 부서코드,
+        D.DEPT_TITLE 부서명
+  FROM
+        EMPLOYEE E
+        JOIN JOB J ON(E.JOB_CODE = J.JOB_CODE)
+        JOIN DEPARTMENT D ON(E.DEPT_CODE = D.DEPT_ID)
+ WHERE
+        D.DEPT_ID IN('D5', 'D6');
 
 
 
