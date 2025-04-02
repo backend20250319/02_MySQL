@@ -13,7 +13,7 @@ SELECT
   FROM
       employee
  WHERE
-     SUBSTR(emp_no, 8, 1) IN ('2', '4')
+     SUBSTR(emp_no, 8, 1) IN ('2', '4');
 
 
 -- 2. 부서코드가 D5인 사원들의 급여총합, 보너스 총합 조회
@@ -41,10 +41,10 @@ SELECT
     198,060,000
 */
 SELECT
-    SUM((salary + IFNULL(bonus, 0) * 12)) AS 연봉
+    format(SUM((salary + (salary * IFNULL(bonus, 0))) * 12), 0) AS 연봉
   FROM
       employee
-
+where dept_code like '%D5%';
 
 -- 4. 남/여 사원 급여합계를 동시에 표현(가공된 컬럼의 합계)
 
