@@ -1,7 +1,12 @@
 use empdb;
 
 -- 1. EMPLOYEE 테이블에서 직급이 J1을 제외하고, 직급별 사원수 및 평균급여를 출력하세요.
-
+    SELECT
+           JOB_CODE 직급코드
+         , COUNT(EMP_NO) '직급별 사원수'
+         , floor(AVG(SALARY)) '평균급여'
+      FROM employee
+    WHERE JOB_CODE != 'J1' GROUP BY JOB_CODE;
 
     /*
         --------------- 출력 예시 -------------
@@ -21,7 +26,11 @@ use empdb;
 
 -- 2. EMPLOYEE테이블에서 직급이 J1을 제외하고, 입사년도별 인원수를 조회해서, 입사년 기준으로 오름차순 정렬하세요.
 -- (select에는 groupby절에 명시한 컬럼만 작성가능)
-
+    SELECT
+           HIRE_DATE '입사년'
+         , COUNT(EMP_NO)
+    FROM employee
+    WHERE JOB_CODE != 'J1' GROUP BY HIRE_DATE;
     /*
         ---- 출력 예시 -------
         입사년          인원수

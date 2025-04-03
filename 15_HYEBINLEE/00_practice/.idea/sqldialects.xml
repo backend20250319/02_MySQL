@@ -3,6 +3,8 @@
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/emp/01_DQL_QUESTION.sql" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/emp/02_Single_Row_Function.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/emp/03_Group_Function.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/emp/04_GROUP_BY_HAVING.sql" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/../08_JOIN.sql" dialect="MySQL" />
   </component>
 </project>
