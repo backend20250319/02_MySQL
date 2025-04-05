@@ -31,7 +31,7 @@
 --      하나의 트랜잭션 안에서 구역을 나눌수 있음
 -- 4. ROLLBACK TO <savepoint명> : 트랜잭션 작업을 취소하고 savepoint 시점으로 이동
 
-SET autocommit  = 1;
+SET autocommit = 1;
 -- 커밋 상태값 확인 쿼리
 SHOW VARIABLES LIKE 'autocommit';
 

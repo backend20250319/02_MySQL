@@ -10,11 +10,18 @@
     <file url="file://$PROJECT_DIR$/08_JOIN.sql" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/09_SUBQUERY.sql" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/09_practice/01_DQL_QUESTION.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/09_practice/02_Single_Row_Function.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/09_practice/03_Group_Function.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/09_practice/04_GROUP_BY_HAVING.sql" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/09_practice/05_Join.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/09_practice/05_Join2.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/09_practice/06_SubQuery.sql" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/10_SET_OPERATORS.sql" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/11_DML.sql" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/12_TRNASACTION.sql" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/13_DDL.sql" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/14_CONSTRAINTS.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/15_VIEW.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/16_INDEX.sql" dialect="MySQL" />
   </component>
 </project>

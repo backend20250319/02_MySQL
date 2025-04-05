@@ -18,7 +18,8 @@ SELECT
       , HIRE_DATE 입사일
       , QUIT_YN 퇴직여부
     FROM employee
-    WHERE QUIT_YN = 'N'
+    WHERE
+        QUIT_YN = 'N'
     AND PHONE LIKE '%2'
     ORDER BY HIRE_DATE DESC
     LIMIT 3;
@@ -70,6 +71,16 @@ SELECT
 
     */
 
+SELECT
+        b.DEPT_TITLE 부서명
+      , COUNT(*) 인원
+      , SUM(a.SALARY) 급여합계
+      , AVG(a.SALARY) 급여평균
+    FROM employee a
+    JOIN department b ON a.DEPT_CODE = b.DEPT_ID
+    WHERE a.QUIT_YN = 'N'
+    GROUP BY b.DEPT_TITLE
+    WITH ROLLUP;
 
 -- 4. 전체 직원의 사원명, 주민등록번호, 전화번호, 부서명, 직급명을 출력하세요.
 --    단, 입사일을 기준으로 오름차순 정렬되도록 출력하세요.
@@ -90,6 +101,17 @@ SELECT
         총 row 수는 24
     */
 
+SELECT
+        a.EMP_NAME 사원명
+      , a.EMP_NO 주민등록번호
+      , a.PHONE 전화번호
+      , b.DEPT_TITLE 부서명
+      , c.JOB_NAME 직급명
+    FROM employee a
+    LEFT JOIN department b ON a.DEPT_CODE = b.DEPT_ID
+    JOIN job c USING(JOB_CODE)
+    ORDER BY HIRE_DATE;
+
 -- 5. 2020년 12월 25일이 무슨 요일인지 조회하시오.(Join아님)
 
     /*
@@ -98,6 +120,8 @@ SELECT
         ---------------------------
         Friday
     */
+
+ SELECT DATE_FORMAT(CAST('20201225' AS DATE), '%W') 요일;
 
 -- 6. 주민번호가 70년대 생이면서 성별이 여자이고,
 --    성이 전씨인 직원들의 사원명, 주민번호, 부서명, 직급명을 조회하시오.
@@ -109,6 +133,18 @@ SELECT
         전지연         770808-2665412       인사관리부    대리
     */
 
+SELECT
+        a.EMP_NAME 사원명
+      , a.EMP_NO 주민번호
+      , b.DEPT_TITLE 부서명
+      , c.JOB_NAME 직급명
+    FROM employee a
+    JOIN department b ON a.DEPT_CODE = b.DEPT_ID
+    JOIN job c USING(JOB_CODE)
+    WHERE
+        SUBSTRING(a.EMP_NO, 1, 2) LIKE '7%'
+    AND SUBSTRING(a.EMP_NO, 8, 1) = 2
+    AND a.EMP_NAME LIKE '전%';
 
 -- 7. 이름에 '형'자가 들어가는 직원들의 사번, 사원명, 직급명을 조회하시오.
 
@@ -118,6 +154,14 @@ SELECT
         -----------------------------------------------------
         211        전형돈    대리
     */
+
+SELECT
+        a.EMP_ID 사번
+      , a.EMP_NAME 사원명
+      , b.JOB_NAME 직급명
+    FROM employee a
+    JOIN job b USING (JOB_CODE)
+    WHERE a.EMP_NAME LIKE '%형%';
 
 -- 8. 해외영업팀에 근무하는 사원명, 직급명, 부서코드, 부서명을 조회하시오.
     /*
@@ -136,6 +180,15 @@ SELECT
 
     */
 
+SELECT
+        a.EMP_NAME 사원명
+      , c.JOB_NAME 직급명
+      , b.DEPT_ID 부서코드
+      , b.DEPT_TITLE 부서명
+    FROM employee a
+    JOIN department b ON a.DEPT_CODE = b.DEPT_ID
+    JOIN job c USING(JOB_CODE)
+    WHERE b.DEPT_TITLE LIKE '해외영업%';
 
 
 
